@@ -26,7 +26,7 @@ router.get('/test-write', function(req, res) {
         else
         {
           console.log("Successfully uploaded data to configs/newTestKey");
-          res.send('wrote test record.  Check S3 congigs/testKey');
+          res.send('wrote test record.  Check S3 configs/testKey');
         }
      });
   });
