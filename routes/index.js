@@ -56,7 +56,7 @@ app.get('/blanco/api/customizations/:id', function(req, res) {
     }
     else
     {
-      res.send(data);
+      res.send(data.Body.toString());
     }
   });
 });
@@ -70,9 +70,6 @@ app.post('/blanco/api/customizations', function(req, res) {
   var submission = {};
 
   submission = req.body;
-  //submission.id = req.body.id;
-  //submission.data = req.body.data;
-  //submission.stuff = req.body.other;
   
   var params = {Bucket: BUCKET, Key: folder + '/' + submission.id, Body: JSON.stringify(submission)};
   s3.putObject(params, function(err, data) {
