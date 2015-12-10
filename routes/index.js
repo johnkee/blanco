@@ -16,8 +16,9 @@ router.get('/test-write', function(req, res) {
   //
   // Test writing to S3
   //
-  s3.createBucket({Bucket: 'elasticbeanstalk-us-west-2-393679320285'}, function() {
-    var params = {Bucket: 'elasticbeanstalk-us-west-2-393679320285', Key: 'configs/testKey', Body: 'Hello!'};
+  //s3.createBucket({Bucket: 'elasticbeanstalk-us-west-2-393679320285'}, function() {
+    //var params = {Bucket: 'elasticbeanstalk-us-west-2-393679320285', Key: 'configs/testKey', Body: 'Hello!'};
+    var params = {Bucket: 'keepictures', Key: 'configs/testKey', Body: 'Hello!'};
     s3.putObject(params, function(err, data) {
         if (err) {
             console.log(err)
@@ -29,7 +30,7 @@ router.get('/test-write', function(req, res) {
           res.send('wrote test record.  Check S3 configs/testKey');
         }
      });
-  });
+  //});
 });
 
 router.get('/blanco/api/customizations/all', function(req, res) {
