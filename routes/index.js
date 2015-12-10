@@ -47,8 +47,18 @@ app.get('/blanco/api/customizations/all', function(req, res) {
   res.send('This will be to retrieve all config filenames');
 });
 
-app.get('/blanco/api/customizations', function(req, res) {
-  res.send('This will be to retrieve a given config JSON');
+app.get('/blanco/api/customizations/:id', function(req, res) {
+  var params = {Bucket: BUCKET, Key: folder + '/' + req.params.id};
+  s3.getObject(params, function(err, data) {
+    if (err) {
+      console.log(err)
+      res.send('{"' + status + '":"' + error + '", "message":"' + err + '"}');
+    }
+    else
+    {
+      res.send(data);
+    }
+  });
 });
 
 // Dummy service to retrieve json
@@ -68,7 +78,6 @@ app.post('/blanco/api/customizations', function(req, res) {
   s3.putObject(params, function(err, data) {
     if (err) {
       console.log(err);
-      console.dir(submission);
       res.send('Error saving file: ' + err);
     }
     else
