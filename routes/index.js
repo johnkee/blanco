@@ -34,62 +34,15 @@ var error =   'error';
 
 
 /* GET home page. */
+
 router.get('/', function(req, res, next) {
   res.render('index', { title: 'Express' });
 });
 
-router.get('/about', function(req, res) {
+router.get('/blanco/about', function(req, res) {
   res.send('Blanco - Customization Settings Manager for White-Label of Aria');
 });
 
-router.get('/blanco/api/customizations/all', function(req, res) {
-  res.send('This will be to retrieve all config filenames');
-});
-
-router.get('/blanco/api/customizations/:id', function(req, res) {
-  var params = {Bucket: BUCKET, Key: folder + '/' + req.params.id};
-  s3.getObject(params, function(err, data) {
-    if (err) {
-      console.log(err)
-      res.send('{"' + status + '":"' + error + '", "message":"' + err + '"}');
-    }
-    else
-    {
-      res.send(data.Body.toString());
-    }
-  });
-});
-
-router.post('/blanco/api/customizations', function(req, res) {
-  var submission = req.body;
-  
-  var params = {Bucket: BUCKET, Key: folder + '/' + submission.id, Body: JSON.stringify(submission)};
-  s3.putObject(params, function(err, data) {
-    if (err) {
-      console.log(err);
-      res.send('Error saving file: ' + err);
-      res.send('Make sure POST data has an "id" field and that content type is application/json');
-    }
-    else
-    {
-      console.log("Successfully uploaded data to " + folder + "/" + submission.id);
-      //res.send(JSON.stringify(submission));
-      res.send('{"' + status + '":"' + success + '","id":"' + submission.id + '"}');
-    }
-  });
-});
-
-router.delete('/blanco/api/customizations/:id', function(req, res) {
-  var params = {Bucket: BUCKET, Key: folder + '/' + req.params.id};
-  s3.deleteObject(params, function(err, data) {
-    if (err) console.log(err, err.stack);
-    else
-    {
-      console.log(req.params.id + ' deleted.');
-      res.send('{"' + status + '":"' + success + '","message":"' + req.params.id + ' deleted"}');
-    }
-  });
-});
 
 
 module.exports = router;

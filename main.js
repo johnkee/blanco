@@ -6,6 +6,8 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 
 var routes = require('./routes/index');
+var customizations = require('./routes/customizations');
+var images = require('./routes/images');
 var users = require('./routes/users');
 
 // AWS S3
@@ -49,7 +51,10 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
+//app.use('/', routes);
 app.use('/', routes);
+app.use('/blanco/api/customizations', customizations);
+app.use('/blanco/api/images', images);
 app.use('/users', users);
 
 // catch 404 and forward to error handler
@@ -58,6 +63,8 @@ app.use(function(req, res, next) {
   err.status = 404;
   next(err);
 });
+
+
 
 // error handlers
 
