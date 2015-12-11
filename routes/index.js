@@ -22,25 +22,10 @@ app.get('/about', function(req, res) {
   res.send('Blanco - Customization Settings Manager for White-Label of Aria');
 });
 
-app.get('/test-write', function(req, res) {
-  //
-  // Test writing to S3
-  //
-  //s3.createBucket({Bucket: 'elasticbeanstalk-us-west-2-393679320285'}, function() {
-    //var params = {Bucket: 'elasticbeanstalk-us-west-2-393679320285', Key: 'configs/testKey', Body: 'Hello!'};
-    var params = {Bucket: 'keepictures', Key: 'configs/testKey', Body: 'Hello!'};
-    s3.putObject(params, function(err, data) {
-        if (err) {
-            console.log(err)
-            res.send('Error writing to S3 - ' + err);
-        }
-        else
-        {
-          console.log("Successfully uploaded data to configs/newTestKey");
-          res.send('wrote test record.  Check S3 configs/testKey');
-        }
-     });
-  //});
+app.options('/about', function(req, res) {
+  res.setHeader('Access-Control-Allow-Origin', '*');
+  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
+  res.setHeader('Access-Control-Allow-Headers', '*');
 });
 
 app.get('/blanco/api/customizations/all', function(req, res) {
