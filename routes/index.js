@@ -2,7 +2,7 @@ var express = require('express');
 var router = express.Router();
 
 //var app = express();
-var bodyParser = require('body-parser');
+//var bodyParser = require('body-parser');
 var AWS = require('aws-sdk');
 var s3 = new AWS.S3();
 
@@ -60,25 +60,20 @@ router.get('/blanco/api/customizations/:id', function(req, res) {
   });
 });
 
-// Dummy service to retrieve json
-router.get('/blanco/api/customizations/abcd-1234', function(req, res) {
-  res.send('{"id":"abcd-1234","name":"Jones Customization File","Button-color":"#339933"}');
-});
-
 router.post('/blanco/api/customizations', function(req, res) {
-  var submission = {};
-
-  submission = req.body;
+  var submission = req.body;
   
   var params = {Bucket: BUCKET, Key: folder + '/' + submission.id, Body: JSON.stringify(submission)};
   s3.putObject(params, function(err, data) {
     if (err) {
       console.log(err);
       res.send('Error saving file: ' + err);
+      res.send('Make sure POST data has an "id" field and that content type is application/json');
     }
     else
     {
       console.log("Successfully uploaded data to " + folder + "/" + submission.id);
+      //res.send(JSON.stringify(submission));
       res.send('{"' + status + '":"' + success + '","id":"' + submission.id + '"}');
     }
   });
@@ -91,7 +86,7 @@ router.delete('/blanco/api/customizations/:id', function(req, res) {
     else
     {
       console.log(req.params.id + ' deleted.');
-      res.send('{"' + status + '":"' + success + '","message":"' + req.params.id + '" deleted"}');
+      res.send('{"' + status + '":"' + success + '","message":"' + req.params.id + ' deleted"}');
     }
   });
 });
